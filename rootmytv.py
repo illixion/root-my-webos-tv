@@ -1,4 +1,4 @@
-from aiopylgtv import WebOsClient
+from bscpylgtv import WebOsClient
 from aiohttp import web
 import asyncio
 import socket
