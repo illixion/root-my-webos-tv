@@ -21,6 +21,12 @@ If the script was successful, a telnet server with root access will be created o
 
 A more in-depth tutorial can be found on my blog here: https://blog.illixion.com/2024/04/root-lg-webos-tv/
 
+## Known errors
+
+- `500 application error, not allowed to call com.webos.service.downloadmanager/download`: your TV is patched against this vulnerability and is thus incompatible
+- `websockets.exceptions.InvalidMessage: did not receive a valid HTTP response`: you are using an old version of the script, please redownload all files, reinstall the requirements and try again
+
+
 ## References
 
 This exploit uses the following CVE: https://www.cve.org/CVERecord?id=CVE-2023-6319
