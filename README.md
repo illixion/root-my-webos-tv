@@ -19,6 +19,8 @@ A simple python script that starts a telnet server on vulnerable webOS devices a
 
 If the script was successful, a telnet server with root access will be created on the TV with port 23. You can use any software to access it, for example Putty on Windows.
 
+A more in-depth tutorial can be found on my blog here: https://blog.illixion.com/2024/04/root-lg-webos-tv/
+
 ## References
 
 This exploit uses the following CVE: https://www.cve.org/CVERecord?id=CVE-2023-6319
