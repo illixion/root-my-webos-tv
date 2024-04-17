@@ -16,6 +16,7 @@ def get_lan_ip():
         ip = s.getsockname()[0]
         # Close the socket
         s.close()
+        print(f"Using {ip} as LAN IP")
         return ip
     except Exception as e:
         print(f"Error: {e}")
@@ -23,7 +24,7 @@ def get_lan_ip():
 
 
 STOP_SERVER = False
-HOST_IP = get_lan_ip()
+HOST_IP = input("Enter your LAN IP address, or press ENTER to autodetect: ") or get_lan_ip()
 TV_IP = input("Enter the TV's IP address: ")
 
 
@@ -54,7 +55,7 @@ async def audio_mp3_handler(request):
 
 
 async def audio_lrc_handler(request):
-    # The bytes to be served for the lrc file
+    # Create a valid UTF1632 LRC file
     print("Served lrc payload")
     lrc_content = bytes.fromhex("FFFE0000")
     return web.Response(body=lrc_content, content_type="application/octet-stream")
@@ -69,7 +70,7 @@ async def main():
         print("Connection timed out, retrying...")
         await client.connect()
     finally:
-        print("Connected to the TV")
+        print("Connected to the TV, asking it to download our files...")
 
     await client.luna_request(
         "com.webos.service.downloadmanager/download",
@@ -89,6 +90,8 @@ async def main():
         },
     )
 
+    print("Attempting to start telnetd...")
+
     await client.luna_request(
         "com.webos.service.attachedstoragemanager/getAudioMetadata",
         {
@@ -107,11 +110,12 @@ async def main():
     print()
     if check_telnet():
         print(f"Telnet is up! Connect to it using IP {TV_IP} and port 23.")
+        print()
         print(
             "To install the Homebrew channel, follow the instructions here: https://github.com/webosbrew/webos-homebrew-channel?tab=readme-ov-file#installation"
         )
     else:
-        print("Error: telnet server timed out after 15s. Your webOS version may be incompatible.")
+        print("Error: telnet server timed out after 15s. Your webOS version may be incompatible, your LAN IP may be wrong, or your firewall is blocking the connection.")
 
 
 async def init_app():
